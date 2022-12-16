@@ -6,6 +6,8 @@ import { SanitizedCollectionConfig } from '../../../../../collections/config/typ
 import { Column } from '../../../elements/Table/types';
 import { fieldIsPresentationalOnly } from '../../../../../fields/config/types';
 import flattenFields from '../../../../../utilities/flattenTopLevelFields';
+import SelectAll from './SelectAll';
+import SelectRow from './SelectRow';
 
 const buildColumns = (collection: SanitizedCollectionConfig, columns: string[], t: TFunction): Column[] => {
   const flattenedFields = flattenFields([
@@ -65,7 +67,19 @@ const buildColumns = (collection: SanitizedCollectionConfig, columns: string[], 
     }
 
     return cols;
-  }, []);
+  }, [{
+    accessor: '_select',
+    components: {
+      Heading: (
+        <SelectAll />
+      ),
+      renderCell: (rowData) => (
+        <SelectRow
+          id={rowData.id}
+        />
+      ),
+    },
+  }]);
 };
 
 export default buildColumns;
